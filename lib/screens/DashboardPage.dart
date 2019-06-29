@@ -5,7 +5,8 @@ class DashboardPage extends StatefulWidget {
   _DashboardPageState createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> with SingleTickerProviderStateMixin {
+class _DashboardPageState extends State<DashboardPage>
+    with SingleTickerProviderStateMixin {
   bool isCollapsed = true;
   double screenWidth, screenHeight;
 
@@ -15,14 +16,15 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   Animation<double> _menuScaleAnimation;
   Animation<Offset> _slideAnimation;
 
-
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
-    _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
-    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
+    _menuScaleAnimation =
+        Tween<double>(begin: 0.5, end: 1).animate(_controller);
+    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+        .animate(_controller);
   }
 
   @override
@@ -30,7 +32,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     _controller.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +41,21 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     // TODO: implement build
     return Scaffold(
         backgroundColor: Colors.red,
-        body: Stack(
-          children: <Widget>[_getMenu(context), _getHome(context)],
-        ));
+        body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xffde516a),
+                  Color(0xffac3452),
+                  Color(0xFFab3854)
+                ],
+              ),
+            ),
+            child: Stack(
+              children: <Widget>[_getMenu(context), _getHome(context)],
+            )));
   }
 
   Widget _getMenu(context) {
@@ -59,30 +72,82 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Home",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                Expanded(
+                  child: _profileHeader(),
+                  flex: 3,
                 ),
-                Text(
-                  "Home",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _getMenuItem("Home", Icons.home),
+                      _getMenuItem("Account", Icons.account_box),
+                      _getMenuItem("Email", Icons.mail),
+                      _getMenuItem("Maps", Icons.map),
+                      _getMenuItem("Settings", Icons.settings),
+                    ],
+                  ),
+                  flex: 3,
                 ),
-                Text(
-                  "Home",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                Text(
-                  "Home",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                Text(
-                  "Home",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
+                Expanded(
+                  child: _getBottom(),
+                  flex: 2,
+                )
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _profileHeader() {
+    return Container(
+     // alignment: Alignment.center,
+      margin: EdgeInsets.only(left: 50.0, top: 50.0, bottom: 10.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CircleAvatar(
+            backgroundImage: ExactAssetImage('images/profile.jpg'),
+            minRadius: 30,
+            maxRadius: 30,
+          ),
+          Text("Micheal Schumaker",
+              style: TextStyle(fontSize: 14, color: Colors.white)),
+          Text("abcd@gmail.com",
+              style: TextStyle(fontSize: 12, color: Colors.white70))
+        ],
+      ),
+    );
+  }
+
+  Widget _getBottom() {
+    return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Logout", style:TextStyle(fontSize: 15, color: Colors.white))
+          ],
+        ));
+  }
+
+  Widget _getMenuItem(String menuItem, IconData icon) {
+    return Container(
+      height: 40.0,
+      child: Row(
+        children: <Widget>[
+          Icon(icon, color: Colors.white70),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              menuItem,
+              style: TextStyle(color: Colors.white70, fontSize: 14),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -115,10 +180,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                         child: Icon(Icons.menu, color: Colors.black),
                         onTap: () {
                           setState(() {
-                            if(isCollapsed)
+                            if (isCollapsed)
                               _controller.forward();
-                              else
-                                _controller.reverse();
+                            else
+                              _controller.reverse();
 
                             isCollapsed = !isCollapsed;
                           });
@@ -129,10 +194,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                   ],
                 ),
                 Expanded(
-                  child:Container(
-                    color: Colors.white,
-                  )
-                )
+                    child: Container(
+                  color: Colors.white,
+                ))
               ],
             ),
           ),
@@ -141,3 +205,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     );
   }
 }
+/***
+
+
+ ***/
