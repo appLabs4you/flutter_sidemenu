@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Lesson.dart';
+
 class DashboardPage extends StatefulWidget {
   @override
   _DashboardPageState createState() => _DashboardPageState();
@@ -104,7 +106,7 @@ class _DashboardPageState extends State<DashboardPage>
 
   Widget _profileHeader() {
     return Container(
-     // alignment: Alignment.center,
+      // alignment: Alignment.center,
       margin: EdgeInsets.only(left: 50.0, top: 50.0, bottom: 10.0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -112,8 +114,8 @@ class _DashboardPageState extends State<DashboardPage>
         children: <Widget>[
           CircleAvatar(
             backgroundImage: ExactAssetImage('images/profile.jpg'),
-            minRadius: 30,
-            maxRadius: 30,
+            minRadius: 35,
+            maxRadius: 35,
           ),
           Text("Micheal Schumaker",
               style: TextStyle(fontSize: 14, color: Colors.white)),
@@ -127,11 +129,11 @@ class _DashboardPageState extends State<DashboardPage>
   Widget _getBottom() {
     return Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Logout", style:TextStyle(fontSize: 15, color: Colors.white))
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text("Logout", style: TextStyle(fontSize: 15, color: Colors.white))
+      ],
+    ));
   }
 
   Widget _getMenuItem(String menuItem, IconData icon) {
@@ -164,48 +166,137 @@ class _DashboardPageState extends State<DashboardPage>
         child: Material(
           elevation: 6,
           animationDuration: duration,
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          color: Colors.white,
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 38.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    InkWell(
-                        child: Icon(Icons.menu, color: Colors.black),
-                        onTap: () {
-                          setState(() {
-                            if (isCollapsed)
-                              _controller.forward();
-                            else
-                              _controller.reverse();
-
-                            isCollapsed = !isCollapsed;
-                          });
-                        }),
-                    Text("Home",
-                        style: TextStyle(fontSize: 20, color: Colors.black)),
-                    Icon(Icons.settings, color: Colors.black)
-                  ],
-                ),
-                Expanded(
-                    child: Container(
+          borderRadius: BorderRadius.all(Radius.circular(0.0)),
+          child: Column(
+            children: <Widget>[
+              Container(
+                  height: 50,
+                  margin: EdgeInsets.only(top: 20, left: 16, right: 16),
                   color: Colors.white,
-                ))
-              ],
-            ),
+                  child: _getActionBar()),
+              Expanded(
+                  child: Container(color: Colors.white, child: _getListView()))
+            ],
           ),
         ),
       ),
     );
   }
+
+  Widget _getActionBar() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        InkWell(
+            child: Icon(Icons.menu, color: Colors.black),
+            onTap: () {
+              setState(() {
+                if (isCollapsed)
+                  _controller.forward();
+                else
+                  _controller.reverse();
+
+                isCollapsed = !isCollapsed;
+              });
+            }),
+        Text("Home", style: TextStyle(fontSize: 20, color: Colors.black)),
+        Icon(Icons.settings, color: Colors.black)
+      ],
+    );
+  }
+
+  Widget _getListView() {
+    return ListView.builder(
+        itemCount: getLessons().length,
+        itemBuilder: (context, index) {
+          return makeCard(getLessons()[index]);
+        });
+  }
+
+  Card makeCard(Lesson lesson) => Card(
+        elevation: 8.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: makeListTile(lesson),
+        ),
+      );
+
+  ListTile makeListTile(Lesson lesson) => ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        leading: Container(
+          padding: EdgeInsets.only(right: 12.0),
+          decoration: new BoxDecoration(
+              border: new Border(
+                  right: new BorderSide(width: 1.0, color: Colors.white))),
+          child: CircleAvatar(
+            backgroundImage: ExactAssetImage('images/profile.jpg'),
+            minRadius: 30,
+            maxRadius: 30,
+          ),
+        ),
+        title: Text(
+          lesson.title,
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+        ),
+
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(lesson.level,
+              style: TextStyle(
+                  color: Colors.black87)
+          ),
+        ),
+        trailing:
+            Icon(Icons.keyboard_arrow_right, color: Colors.black87, size: 30.0),
+        onTap: () {},
+      );
+
+  List getLessons() {
+    return [
+      Lesson(
+          title: "Introduction to Driving",
+          level: "Beginner",
+          price: 20,
+          content:
+              "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
+      Lesson(
+          title: "Observation at Junctions",
+          level: "Beginner",
+          price: 50,
+          content:
+              "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
+      Lesson(
+          title: "Reverse parallel Parking",
+          level: "Intermidiate",
+          price: 30,
+          content:
+              "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
+      Lesson(
+          title: "Reversing around the corner",
+          level: "Intermidiate",
+          price: 30,
+          content:
+              "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
+      Lesson(
+          title: "Incorrect Use of Signal",
+          level: "Advanced",
+          price: 50,
+          content:
+              "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
+      Lesson(
+          title: "Engine Challenges",
+          level: "Advanced",
+          price: 50,
+          content:
+              "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
+      Lesson(
+          title: "Self Driving Car",
+          level: "Advanced",
+          price: 50,
+          content:
+              "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed.  ")
+    ];
+  }
 }
-/***
-
-
- ***/
