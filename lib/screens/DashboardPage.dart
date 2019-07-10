@@ -117,8 +117,10 @@ class _DashboardPageState extends State<DashboardPage>
             minRadius: 35,
             maxRadius: 35,
           ),
+          SizedBox(height: 15,),
           Text("Micheal Schumaker",
               style: TextStyle(fontSize: 14, color: Colors.white)),
+          SizedBox(height: 5,),
           Text("abcd@gmail.com",
               style: TextStyle(fontSize: 12, color: Colors.white70))
         ],
@@ -208,6 +210,7 @@ class _DashboardPageState extends State<DashboardPage>
 
   Widget _getListView() {
     return ListView.builder(
+         padding: EdgeInsets.only(top: 0),
         itemCount: getLessons().length,
         itemBuilder: (context, index) {
           return makeCard(getLessons()[index]);
