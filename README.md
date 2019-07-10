@@ -20,6 +20,6 @@ https://studio.envato.com/explore/mobile-design-development/9710-android-ios-mob
 
 
 <div align="center">
-    <img src="/screenshots/Screenshot_1.jpg" width="400px"</img> 
-  <img src="/screenshots/Screenshot_2.jpg" width="400px"</img> 
+    <img src="/screenshots/Screenshot_1.png" width="250px"</img> 
+  <img src="/screenshots/Screenshot_2.png" width="250px"</img> 
 </div>
